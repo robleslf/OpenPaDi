@@ -1,10 +1,20 @@
 from fastapi import FastAPI, UploadFile, HTTPException
+from fastapi.middleware.cors import CORSMiddleware  # <-- Añadido
 from minio import Minio
 from minio.error import S3Error
 
 app = FastAPI()
 
-# Configuración de MinIO (usar "minio:9000" si está en Docker)
+# Configuración CORS (Nuevo)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Configuración de MinIO
 minio_client = Minio(
     "minio:9000",
     access_key="minioadmin",
@@ -15,11 +25,9 @@ minio_client = Minio(
 @app.post("/upload")
 async def upload_file(file: UploadFile):
     try:
-        # Verificar y crear el bucket si no existe
         if not minio_client.bucket_exists("documentos"):
             minio_client.make_bucket("documentos")
-        
-        # Subir el archivo
+
         minio_client.put_object(
             "documentos",
             file.filename,
