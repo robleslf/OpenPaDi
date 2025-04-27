@@ -1,28 +1,27 @@
-import Keycloak from 'keycloak-js';
+import { createAuth0Client } from '@auth0/auth0-spa-js';
 
-const keycloakConfig = {
-    url: "http://localhost:9095",
-    realm: "openpadi",
-    clientId: "openpadi-frontend"
-};
-
-const keycloak = new Keycloak(keycloakConfig);
+let auth0Client = null;
 
 export const initializeAuth = async () => {
-    try {
-        const authenticated = await keycloak.init({
-            onLoad: "check-sso",
-            pkceMethod: "S256",
-            silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html"
-        });
-        return authenticated;
-    } catch (error) {
-        console.error("Error inicializando Keycloak:", error);
-        return false;
+  auth0Client = await createAuth0Client({
+    domain: "localhost:9095",
+    clientId: "openpadi-frontend",
+    authorizationParams: {
+      redirect_uri: window.location.origin,
+      audience: "openpadi-backend"
     }
+  });
+  return auth0Client;
 };
 
-export const login = () => keycloak.login();
-export const logout = () => keycloak.logout({ redirectUri: window.location.origin });
-export const getToken = () => keycloak.token;
-export const getUser = () => keycloak.tokenParsed;
+export const login = async () => {
+  await auth0Client.loginWithRedirect();
+};
+
+export const logout = async () => {
+  await auth0Client.logout();
+};
+
+export const getToken = async () => {
+  return await auth0Client.getTokenSilently();
+};

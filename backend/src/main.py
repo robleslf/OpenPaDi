@@ -1,18 +1,8 @@
 from fastapi import FastAPI, UploadFile, HTTPException
-from fastapi.middleware.cors import CORSMiddleware  # <-- Añadido
 from minio import Minio
 from minio.error import S3Error
 
 app = FastAPI()
-
-# Configuración CORS (Nuevo)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Configuración de MinIO
 minio_client = Minio(
