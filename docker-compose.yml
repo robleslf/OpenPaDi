@@ -9,6 +9,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - openpadi-network
 
   minio:
     image: minio/minio
@@ -21,15 +23,25 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
       - minio_data:/data
+    networks:
+      - openpadi-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
     ports:
-      - "9095:8080"  # Keycloak Web
+      - "9095:8080"  # Keycloak Web (HTTP)
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-    command: start-dev
+      KC_PROXY: "edge"  # Necesario para redirecciones correctas
+      KC_HOSTNAME: "localhost"  # Dominio del host (ajustar en producción)
+    command: ["start-dev"]
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    networks:
+      - openpadi-network
+    depends_on:
+      - postgres  # Si Keycloak usara PostgreSQL en el futuro
 
   backend:
     build: ./backend
@@ -37,14 +49,30 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:openpadi@postgres:5432/postgres
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    networks:
+      - openpadi-network
+    depends_on:
+      - postgres
+      - minio
 
   frontend:
     build: ./frontend
     ports:
       - "5173:5173"
+    networks:
+      - openpadi-network
     depends_on:
       - backend
+      - keycloak  # Asegura que Keycloak esté disponible
 
 volumes:
   postgres_data:
   minio_data:
+  keycloak_data:  # Persistencia de datos de Keycloak
+
+networks:
+  openpadi-network:
+    driver: bridge
