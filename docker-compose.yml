@@ -16,8 +16,8 @@ services:
     image: minio/minio
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"  # API
-      - "9001:9001"  # Consola Web
+      - "9000:9000"
+      - "9001:9001"
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
@@ -29,19 +29,19 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
     ports:
-      - "9095:8080"  # Keycloak Web (HTTP)
+      - "9095:8080"
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_PROXY: "edge"  # Necesario para redirecciones correctas
-      KC_HOSTNAME: "localhost"  # Dominio del host (ajustar en producción)
+      KC_PROXY: "edge"
+      KC_HOSTNAME: "localhost"
     command: ["start-dev"]
     volumes:
       - keycloak_data:/opt/keycloak/data
     networks:
       - openpadi-network
     depends_on:
-      - postgres  # Si Keycloak usara PostgreSQL en el futuro
+      - postgres
 
   backend:
     build: ./backend
@@ -66,12 +66,12 @@ services:
       - openpadi-network
     depends_on:
       - backend
-      - keycloak  # Asegura que Keycloak esté disponible
+      - keycloak
 
 volumes:
   postgres_data:
   minio_data:
-  keycloak_data:  # Persistencia de datos de Keycloak
+  keycloak_data:
 
 networks:
   openpadi-network:
