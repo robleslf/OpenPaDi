@@ -1,2 +1,2 @@
-El objetivo de esta rama es integrar como sistema de autenticación para el frontend (actualmente SvelteKit).
+El objetivo de esta rama es integrar KEYCLOA Kcomo sistema de autenticación para el frontend (actualmente SvelteKit).
 
