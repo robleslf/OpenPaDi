@@ -2,7 +2,8 @@
   <img src="img/logo_provisional.png" alt="Logo" />
 </p>
 
-# <p align="center">OpenPaDi</p>
+<!-- # <p align="center">OpenPaDi</p> -->
+
 
 **Open Paleography and Diplomatics**  
 **Fecha de creación:** Abril 2025
