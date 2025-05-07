@@ -1,0 +1,49 @@
+# NO se puede usar VLANs “reales” con tags físicos porque ni VirtualBox ni tu red doméstica están pensados para ello.
+# Este archivo simula la segmentación lógica dentro de Proxmox, creando múltiples bridges (vmbr1, vmbr2, vmbr3) que comparten la misma interfaz física (enp0s3), y luego aislan las redes a nivel de VMs, firewalls y reglas internas.
+
+
+# Loopback
+auto lo
+iface lo inet loopback
+
+# Interfaz física principal (VirtualBox usa enp0s3 en adaptador puente)
+iface enp0s3 inet manual
+
+# -----------------------------------------------
+# vmbr0 → Bridge para administración de Proxmox
+# IP de gestión para acceder por web y SSH
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.1.138/24  # IP dentro de tu red física doméstica
+    gateway 192.168.1.1        # Tu router físico
+    bridge-ports enp0s3        # Usa la tarjeta física
+    bridge-stp off
+    bridge-fd 0
+
+# -----------------------------------------------
+# vmbr1 → Bridge vacío para red DMZ simulada
+auto vmbr1
+iface vmbr1 inet manual
+    bridge-ports none
+    bridge-stp off
+    bridge-fd 0
+
+# -----------------------------------------------
+# vmbr2 → Bridge vacío para red clúster interno
+auto vmbr2
+iface vmbr2 inet manual
+    bridge-ports none
+    bridge-stp off
+    bridge-fd 0
+
+# -----------------------------------------------
+# vmbr3 → Bridge vacío para red almacenamiento
+auto vmbr3
+iface vmbr3 inet manual
+    bridge-ports none
+    bridge-stp off
+    bridge-fd 0
+
+# -----------------------------------------------
+# Incluye configuraciones adicionales (si existieran)
+source /etc/network/interfaces.d/*
