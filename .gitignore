@@ -1,0 +1,19 @@
+# Entornos virtuales y dependencias
+venv/
+node_modules/
+__pycache__/
+*.pyc
+
+# Credenciales y variables de entorno
+.env
+*.key
+*.pem
+secrets/
+
+# Logs y temporales
+*.log
+*.tmp
+
+# Configuraciones de IDE
+.vscode/
+.idea/
