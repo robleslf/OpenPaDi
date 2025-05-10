@@ -1,4 +1,6 @@
-![Logo de OpenPaDi](images/logo_lacre.png)
+<p align="center">
+  <img src="images/logo_lacre.png" alt="Logo de OpenPaDi" width="150"/>
+</p>
 # OpenPaDi 📜
 
 **Open Paleography and Diplomatics**  
