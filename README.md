@@ -1,4 +1,9 @@
+
 # OpenPaDi 📜
+
+<p align="center">
+  <img src="images/logo_lacre.png" alt="Logo de OpenPaDi" width="150"/>
+</p>
 
 **Open Paleography and Diplomatics**  
 **Fecha de creación:** Abril 2025

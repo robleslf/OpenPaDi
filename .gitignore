@@ -1,13 +1,19 @@
-# Python
+# Entornos virtuales y dependencias
+venv/
+node_modules/
 __pycache__/
 *.pyc
-.venv/
 
-# Node.js
-node_modules/
+# Credenciales y variables de entorno
 .env
-dist/
+*.key
+*.pem
+secrets/
 
-# Otros
-.DS_Store
+# Logs y temporales
 *.log
+*.tmp
+
+# Configuraciones de IDE
+.vscode/
+.idea/

@@ -1,5 +1,0 @@
-# Gestión de archivos grandes con Git LFS
-*.tif filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.png filter=lfs diff=lfs merge=lfs -text
-transcriptions/*.xml filter=lfs diff=lfs merge=lfs -text
