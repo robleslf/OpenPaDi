@@ -1,3 +1,4 @@
+![Logo de OpenPaDi](images/logo_lacre.png)
 # OpenPaDi 📜
 
 **Open Paleography and Diplomatics**  
