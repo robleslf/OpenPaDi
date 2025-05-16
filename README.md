@@ -14,6 +14,15 @@
 **OpenPaDi** es una plataforma colaborativa para la transcripción y consulta de textos históricos.  
 Está dirigida a investigadores, estudiantes, paleógrafos, diplomáticos e historiadores, facilitando el acceso a fuentes escritas antiguas a través de un entorno digital abierto y seguro.
 
+---
+
+## Funcionalidades
+
+- Repositorio de documentos digitalizados.
+- Transcripción colaborativa y validación de calidad.
+- Espacios de discusión y formación especializada.
+- Búsqueda avanzada por fecha, lugar y palabras clave.
+- Seguridad, privacidad y gestión de usuarios.
 
 ---
 
@@ -23,10 +32,9 @@ OpenPaDi se está diseñando sobre una arquitectura moderna y escalable, utiliza
 
 **Componentes Clave de la Arquitectura:**
 
-1.  **Clúster Kubernetes (k3s):**
-    *   **Orquestación:** Gestiona el ciclo de vida de las aplicaciones (frontend y API), incluyendo despliegues, escalado automático y auto-reparación.
-    *   **Nodos:** El clúster consta de nodos maestros (control-plane) y nodos trabajadores (workers) que ejecutan las cargas de trabajo. En nuestro entorno de desarrollo inicial, utilizamos máquinas virtuales (ej. `OP-Web-1` como master, `OP-API-1` como worker).
-    *   **Descubrimiento de Servicios:** Facilita la comunicación interna entre el frontend y la API mediante el DNS de Kubernetes.
+| Componente y Descripción                                                                                                                                                                                                                                                                                                                        | Diagrama Ilustrativo                                                                     |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------- |
+| **1. Clúster Kubernetes (k3s):** <br><ul><li>**Orquestación:** Gestiona el ciclo de vida de las aplicaciones (frontend y API), incluyendo despliegues, escalado automático y auto-reparación.</li><li>**Nodos:** El clúster consta de nodos maestros (control-plane) y nodos trabajadores (workers) que ejecutan las cargas de trabajo. En nuestro entorno de desarrollo inicial, utilizamos máquinas virtuales (ej. `OP-Web-1` como master, `OP-API-1` como worker).</li><li>**Descubrimiento de Servicios:** Facilita la comunicación interna entre el frontend y la API mediante el DNS de Kubernetes.</li></ul> | <p align="center"><img src="images/kubernetes.png" alt="Arquitectura Kubernetes de OpenPaDi" width="250"/></p> |
 
 2.  **Frontend (opadi-frontend):**
     *   La interfaz de usuario con la que interactúan los paleógrafos e investigadores.
