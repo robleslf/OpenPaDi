@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # Servidor de producción de Let's Encrypt
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Tu email para notificaciones de expiración
+    email: robleslf93@gmail.com
+    # Nombre del Secret para la clave privada de este issuer
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+    # Definimos solver HTTP-01 usando Traefik Ingress
+    solvers:
+    - http01:
+        ingress:
+          class: traefik

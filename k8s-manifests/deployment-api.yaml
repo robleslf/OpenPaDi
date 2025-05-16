@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opadi-api
+  labels:
+    app: opadi-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opadi-api
+  template:
+    metadata:
+      labels:
+        app: opadi-api
+    spec:
+      containers:
+      - name: opadi-api-container
+        image: robleslf/opadi-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000

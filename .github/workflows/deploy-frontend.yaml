@@ -1,0 +1,43 @@
+name: Deploy Frontend OP-Web
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'opadi-frontend/**'
+      - '.github/workflows/deploy-frontend.yaml'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install SvelteKit dependencies and build
+        working-directory: ./opadi-frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image for Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./opadi-frontend
+          file: ./opadi-frontend/Dockerfile
+          push: true
+          tags: robleslf/opadi-frontend:latest,robleslf/opadi-frontend:${{ github.sha }}

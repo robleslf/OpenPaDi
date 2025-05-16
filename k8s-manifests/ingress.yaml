@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: opadi-frontend-ingress
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - openpadi.local
+    secretName: openpadi-tls
+  rules:
+  - host: openpadi.local
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: op-api
+            port:
+              number: 8000
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: opadi-frontend-service
+            port:
+              number: 80
