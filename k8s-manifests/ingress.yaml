@@ -1,12 +1,14 @@
+# ~/k8s-manifests/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: opadi-frontend-ingress
+  name: opadi-frontend-ingress # Puedes mantener este nombre o hacerlo más genérico
 spec:
   ingressClassName: traefik
   tls:
   - hosts:
     - openpadi.local
+    - auth.openpadi.local # <--- ASEGÚRATE QUE ESTA LÍNEA ESTÉ
     secretName: openpadi-tls
   rules:
   - host: openpadi.local
@@ -26,3 +28,13 @@ spec:
             name: opadi-frontend-service
             port:
               number: 80
+  - host: auth.openpadi.local # <--- ASEGÚRATE QUE TODA ESTA SECCIÓN ESTÉ
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak-service # El servicio que creamos para Keycloak
+            port:
+              number: 8080

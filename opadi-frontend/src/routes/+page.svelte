@@ -8,6 +8,7 @@
   let formTitulo = '';
   let formFecha = '';
   let formContenido = '';
+  let formArchivo = null;
   
   let errorMessage = '';
   let successMessage = '';
@@ -35,6 +36,9 @@
     formTitulo = '';
     formFecha = '';
     formContenido = '';
+    formArchivo = null;
+    const fileInput = document.getElementById('archivo');
+    if (fileInput) fileInput.value = '';
     successMessage = '';
     errorMessage = '';
   }
@@ -44,8 +48,19 @@
     formTitulo = doc.titulo;
     formFecha = doc.fecha ? doc.fecha.toString().split('T')[0] : '';
     formContenido = doc.contenido || '';
+    formArchivo = null;
+    const fileInput = document.getElementById('archivo');
+    if (fileInput) fileInput.value = '';
     successMessage = '';
     errorMessage = '';
+  }
+
+  function handleFileChange(event) {
+    if (event.target.files.length > 0) {
+      formArchivo = event.target.files[0];
+    } else {
+      formArchivo = null;
+    }
   }
 
   async function handleSubmit() {
@@ -57,19 +72,36 @@
       return;
     }
 
-    const documentoData = {
-      titulo: formTitulo,
-      fecha: formFecha || null,
-      contenido: formContenido
-    };
+    const formData = new FormData();
+    formData.append('titulo', formTitulo);
+    if (formFecha) {
+        formData.append('fecha', formFecha);
+    }
+    if (formContenido) {
+        formData.append('contenido', formContenido);
+    }
+    if (formArchivo) {
+      formData.append('archivo', formArchivo);
+    }
 
     try {
       let response;
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+
       if (currentId) {
+        const documentoData = {
+            titulo: formTitulo,
+            fecha: formFecha || null,
+            contenido: formContenido
+        };
         response = await axios.put(`/api/documentos/${currentId}`, documentoData);
         successMessage = `Documento "${response.data.titulo}" actualizado con éxito (ID: ${response.data.id}).`;
       } else {
-        response = await axios.post('/api/documentos', documentoData);
+        response = await axios.post('/api/documentos', formData, config);
         successMessage = `Documento "${response.data.titulo}" creado con éxito (ID: ${response.data.id}).`;
       }
       await fetchDocumentos(); 
@@ -106,6 +138,28 @@
       }
     }
   }
+
+  async function handleDownloadArchivo(docId, docTitulo) {
+    errorMessage = '';
+    successMessage = '';
+    try {
+        const response = await axios.get(`/api/documentos/${docId}/archivo`);
+        if (response.data && response.data.url_descarga) {
+            window.open(response.data.url_descarga, '_blank');
+            successMessage = `Preparando descarga para "${docTitulo}"...`;
+        } else {
+            errorMessage = "No se pudo obtener la URL de descarga.";
+        }
+    } catch (error) {
+        console.error('Error obteniendo URL de descarga:', error);
+        if (error.response && error.response.data && error.response.data.detail) {
+            errorMessage = `Error al obtener archivo: ${error.response.data.detail}`;
+        } else {
+            errorMessage = 'Error desconocido al obtener el archivo.';
+        }
+    }
+  }
+
 </script>
 
 <main>
@@ -132,6 +186,12 @@
       <label for="contenido">Contenido:</label>
       <textarea id="contenido" bind:value={formContenido}></textarea>
     </div>
+    {#if !currentId}
+    <div>
+      <label for="archivo">Archivo (PDF, Imagen, etc.):</label>
+      <input type="file" id="archivo" on:change={handleFileChange} />
+    </div>
+    {/if}
     <button type="submit">{currentId ? 'Guardar Cambios' : 'Crear Documento'}</button>
     {#if currentId}
       <button type="button" on:click={prepareNewDocumentForm}>Cancelar Edición (Crear Nuevo)</button>
@@ -150,6 +210,9 @@
           <strong>{doc.titulo}</strong> (ID: {doc.id})<br />
           Fecha: {doc.fecha || 'N/A'}<br />
           Contenido: {doc.contenido || 'N/A'}<br />
+          {#if doc.minio_object_key}
+            <button on:click={() => handleDownloadArchivo(doc.id, doc.titulo)}>Ver/Descargar Archivo</button>
+          {/if}
           <button on:click={() => prepareEditForm(doc)}>Editar</button>
           <button on:click={() => handleDelete(doc.id, doc.titulo)}>Eliminar</button>
         </li>
@@ -180,7 +243,8 @@
   }
   input[type="text"],
   input[type="date"],
-  textarea {
+  textarea,
+  input[type="file"] {
     width: 100%;
     padding: 0.5em;
     box-sizing: border-box;
@@ -198,6 +262,7 @@
     border-radius: 4px;
     cursor: pointer;
     margin-right: 0.5em;
+    margin-top: 0.5em;
   }
   button[type="button"] {
     background-color: #6c757d;
@@ -214,9 +279,5 @@
     padding: 1em;
     margin-bottom: 0.5em;
     border-radius: 4px;
-  }
-  li button {
-    margin-top: 0.5em;
-    padding: 0.5em 1em;
   }
 </style>

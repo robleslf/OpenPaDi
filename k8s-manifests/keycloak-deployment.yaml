@@ -1,0 +1,47 @@
+# ~/k8s-manifests/keycloak-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:24.0.4
+        command: ["/opt/keycloak/bin/kc.sh"]
+        args: ["start-dev"]
+        env:
+        - name: KEYCLOAK_ADMIN
+          value: "keycloakadmin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "TuClaveSuperSeguraParaKeycloakAdmin" # ¡CAMBIA ESTO POR UNA REAL!
+        - name: KC_PROXY
+          value: "edge"
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /realms/master/.well-known/openid-configuration
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 30
+        # Liveness Probe (opcional pero recomendado para producción)
+        # livenessProbe:
+        #   httpGet:
+        #     path: /realms/master/.well-known/openid-configuration # O un endpoint de health si lo encuentras
+        #     port: 8080
+        #   initialDelaySeconds: 90 # Más tiempo para el primer chequeo
+        #   periodSeconds: 20
