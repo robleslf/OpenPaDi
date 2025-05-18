@@ -66,4 +66,3 @@ Distribuido bajo la **GNU Affero General Public License v3.0 (AGPLv3)**.
 
 ---
 
-# 🌟 ¡Contribuye a democratizar la paleografía digital!
