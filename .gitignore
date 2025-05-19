@@ -1,36 +1,20 @@
- # Python
-  __pycache__/
-  *.py[cod]
-  *$py.class
-  *.egg-info/
-  .env
-  env/
-  venv/
-  ENV/
-  pip-freeze.txt # A menos que quieras versionarlo explícitamente
-  *.egg
-  instance/
-  .pytest_cache/
-  .mypy_cache/
-  .dmypy.json
-  dmypy.json
-  
-  # Node.js
-  node_modules/
-  npm-debug.log*
-  yarn-debug.log*
-  yarn-error.log*
-  package-lock.json # A veces se versiona, a veces no. Si tu workflow hace 'npm install', no es crítico subirlo.
-                    # Si quieres builds 100% reproducibles, versiona package-lock.json. Por ahora, lo dejaré fuera.
-  build/ # Para el frontend de SvelteKit, la carpeta 'build' generada
-  .svelte-kit/
+# Node.js / Svelte
+/frontend/node_modules
+/frontend/build
+/frontend/.svelte-kit
+/frontend/.vite
 
-  # Archivos de OS
-  .DS_Store
-  Thumbs.db
+# Python
+/api/__pycache__
+/api/*.pyc
+/api/venv
+/api/.venv
 
-  # IDE / Editor
-  .vscode/
-  .idea/
-  *.swp
-  *~
+# Archivos temporales o de sistema operativo
+.DS_Store
+*.log
+salida.txt # Tu archivo temporal de logs
+
+# Archivos de IDE (opcional, ejemplos)
+.vscode/
+.idea/
