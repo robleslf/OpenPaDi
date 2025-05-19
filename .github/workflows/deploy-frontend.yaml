@@ -22,10 +22,16 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Clean npm cache
+        run: npm cache clean --force
+      
+      - name: Update npm to latest
+        run: npm install -g npm@latest
+
       - name: Install SvelteKit dependencies and build
         working-directory: ./opadi-frontend
         run: |
-          npm install
+          npm install 
           npm run build
 
       - name: Login to Docker Hub
