@@ -56,7 +56,51 @@ Esta arquitectura proporciona una base robusta para el desarrollo y la operació
 
 ## Estado
 
-🚧 Proyecto en fase inicial de diseño y desarrollo. Actualmente definiendo la arquitectura de la infraestructura y comenzando con los primeros componentes de la aplicación.
+# 🚧 Entorno de Prueba Funcional en VirtualBox (Base)
+
+## Servicios Desplegados ✅
+
+- **Frontend (Svelte)** dockerizado y en K3s ✅  
+- **API (FastAPI)** dockerizado y en K3s ✅  
+- **Base de Datos (PostgreSQL)** operativa ✅  
+- **Almacenamiento de Objetos (MinIO)** operativo ✅  
+- **Ingress (Traefik)** con TLS autofirmado para exponer frontend y API ✅  
+- **Comunicación** Frontend ⇄ API ⇄ BD ⇄ MinIO funcionando ✅  
+
+## Autenticación y Gestión de Usuarios con Keycloak 🔐
+
+- Despliegue de Keycloak en K3s ✅  
+- Exposición de Keycloak vía Traefik Ingress ✅  
+- Configuración básica de Keycloak:
+  - Realm `openpadi` ✅  
+  - Clientes `openpadi-api` y `openpadi-frontend` ✅  
+  - Usuario de prueba creado ✅  
+
+### ⏳ Pendientes
+
+- 🔄 **Integrar API FastAPI con Keycloak**: Validación de tokens JWT  
+- 🔄 **Integrar Frontend Svelte con Keycloak**: Flujo de login/logout y uso de tokens  
+
+---
+
+## Fortalecimiento de la Infraestructura (HA y Monitorización)  
+*Aún en VirtualBox*
+
+### ⏳ Pendientes
+
+- 📊 **Monitorización Básica (Mon-VM con Prometheus/Grafana)**:  
+  - Desplegar y configurar  
+
+- ⚙️ **Bases para Alta Disponibilidad (HA)**:
+  - Nodo Worker K3s adicional: `OP-API-2`  
+  - Réplica de Base de Datos (`DB-Replica` para PostgreSQL)  
+  - Evaluar cómo se benefician **Svelte** y **Traefik** de múltiples workers  
+
+---
+
+## 🛠️ Planificación de Migración a Proxmox
+
+- ⏳ Pendiente: Iniciar una vez se consolide seguridad y monitorización en VirtualBox
 
 ---
 
