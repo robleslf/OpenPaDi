@@ -20,13 +20,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '18' # Usando Node 18
 
       - name: Clean npm cache
         run: npm cache clean --force
       
-      - name: Update npm to latest
-        run: npm install -g npm@latest
+      # - name: Update npm to latest
+      #   run: npm install -g npm@latest
 
       - name: Install SvelteKit dependencies and build
         working-directory: ./opadi-frontend
