@@ -14,6 +14,10 @@ spec:
       labels:
         app: opadi-api
     spec:
+      hostAliases:
+      - ip: "192.168.1.10"
+        hostnames:
+        - "auth.openpadi.local"
       containers:
       - name: opadi-api-container
         image: robleslf/opadi-api:latest

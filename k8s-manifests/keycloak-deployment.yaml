@@ -1,4 +1,3 @@
-# ~/k8s-manifests/keycloak-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,6 +14,11 @@ spec:
       labels:
         app: keycloak
     spec:
+      volumes: # NUEVA SECCIÓN
+      - name: custom-themes
+        hostPath:
+          path: /home/administrator/opadi-frontend/keycloak_theme # RUTA A TU DIRECTORIO DE TEMAS EN OP-Web-1
+          type: DirectoryOrCreate 
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak:24.0.4
@@ -24,7 +28,7 @@ spec:
         - name: KEYCLOAK_ADMIN
           value: "keycloakadmin"
         - name: KEYCLOAK_ADMIN_PASSWORD
-          value: "TuClaveSuperSeguraParaKeycloakAdmin" # ¡CAMBIA ESTO POR UNA REAL!
+          value: "TuClaveSuperSeguraParaKeycloakAdmin" # ¡Usa tu contraseña real!
         - name: KC_PROXY
           value: "edge"
         ports:
@@ -38,10 +42,6 @@ spec:
           timeoutSeconds: 5
           periodSeconds: 10
           failureThreshold: 30
-        # Liveness Probe (opcional pero recomendado para producción)
-        # livenessProbe:
-        #   httpGet:
-        #     path: /realms/master/.well-known/openid-configuration # O un endpoint de health si lo encuentras
-        #     port: 8080
-        #   initialDelaySeconds: 90 # Más tiempo para el primer chequeo
-        #   periodSeconds: 20
+        volumeMounts: # NUEVA SECCIÓN
+        - name: custom-themes # Debe coincidir con el 'name' del volume
+          mountPath: /opt/keycloak/themes # Directorio estándar de temas dentro del contenedor Keycloak
