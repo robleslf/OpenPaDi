@@ -1,20 +1,91 @@
-# Node.js / Svelte
-/frontend/node_modules
-/frontend/build
-/frontend/.svelte-kit
-/frontend/.vite
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Python
-/api/__pycache__
-/api/*.pyc
-/api/venv
-/api/.venv
+# C extensions
+*.so
 
-# Archivos temporales o de sistema operativo
-.DS_Store
-*.log
-salida.txt # Tu archivo temporal de logs
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib60/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Archivos de IDE (opcional, ejemplos)
-.vscode/
+# PyInstaller
+# Обычно эти файлы создаются PyInstaller
+# spec file
+*.spec
+# Не включать бинарные файлы PyInstaller в Git репозиторий
+# Обычно они создаются PyInstaller в папке dist/
+# dist/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE / Editor specific files
 .idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+nbproject/
+
+# Node.js / Svelte / Vite
+node_modules/
+.DS_Store
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# Build output
+dist/
+.svelte-kit/
+build/ # Puede ser genérico para muchos proyectos
+.vite/
+.next/ # Si usaras Next.js
+
+# Archivos de sistema operativo
+Thumbs.db
+ehthumbs.db
+
+# Otros
+salida.txt

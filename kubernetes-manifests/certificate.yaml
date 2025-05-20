@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openpadi-tls
+spec:
+  secretName: openpadi-tls
+  dnsNames:
+    - openpadi.local
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
