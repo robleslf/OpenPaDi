@@ -14,23 +14,49 @@ spec:
       labels:
         app: keycloak
     spec:
-      volumes: # NUEVA SECCIÓN
+      volumes:
       - name: custom-themes
         hostPath:
-          path: /home/administrator/opadi-frontend/keycloak_theme # RUTA A TU DIRECTORIO DE TEMAS EN OP-Web-1
-          type: DirectoryOrCreate 
+          path: /home/administrator/opadi-frontend/keycloak_theme
+          type: DirectoryOrCreate
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak:24.0.4
         command: ["/opt/keycloak/bin/kc.sh"]
-        args: ["start-dev"]
+        args: ["start"]
         env:
         - name: KEYCLOAK_ADMIN
           value: "keycloakadmin"
         - name: KEYCLOAK_ADMIN_PASSWORD
-          value: "TuClaveSuperSeguraParaKeycloakAdmin" # ¡Usa tu contraseña real!
+          value: "TuClaveSuperSeguraParaKeycloakAdmin"
         - name: KC_PROXY
           value: "edge"
+        - name: KC_DB
+          value: "postgres"
+        - name: KC_DB_URL_HOST
+          value: "192.168.1.13"
+        - name: KC_DB_URL_DATABASE
+          value: "keycloak_db"
+        - name: KC_DB_URL_PORT
+          value: "5432"
+        - name: KC_DB_USERNAME
+          value: "keycloak_user"
+        - name: KC_DB_PASSWORD
+          value: "abc123.." 
+        - name: KC_DB_SCHEMA
+          value: "public"
+        - name: KC_HOSTNAME_STRICT
+          value: "false" 
+        - name: KC_HOSTNAME_STRICT_BACKCHANNEL
+          value: "false"
+        - name: KC_HTTP_ENABLED
+          value: "true"
+        - name: KC_HTTP_PORT
+          value: "8080"
+        - name: KC_HOSTNAME_URL
+          value: "https://auth.openpadi.local"
+        - name: KC_HOSTNAME_ADMIN_URL
+          value: "https://auth.openpadi.local"
         ports:
         - name: http
           containerPort: 8080
@@ -38,10 +64,10 @@ spec:
           httpGet:
             path: /realms/master/.well-known/openid-configuration
             port: 8080
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-          periodSeconds: 10
-          failureThreshold: 30
-        volumeMounts: # NUEVA SECCIÓN
-        - name: custom-themes # Debe coincidir con el 'name' del volume
-          mountPath: /opt/keycloak/themes # Directorio estándar de temas dentro del contenedor Keycloak
+          initialDelaySeconds: 90
+          timeoutSeconds: 10
+          periodSeconds: 15
+          failureThreshold: 20
+        volumeMounts:
+        - name: custom-themes
+          mountPath: /opt/keycloak/themes

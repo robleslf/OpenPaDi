@@ -32,7 +32,7 @@ MINIO_BUCKET_NAME = "openpadi-documentos"
 MINIO_USE_SSL = False
 
 KEYCLOAK_OPENID_CONFIG_URL = "https://auth.openpadi.local/realms/openpadi/.well-known/openid-configuration"
-KEYCLOAK_AUDIENCE = "openpadi-api"
+KEYCLOAK_AUDIENCE = "account"
 KEYCLOAK_ALGORITHMS = ["RS256"]
 
 keycloak_public_keys = None
@@ -485,4 +485,3 @@ async def get_archivo_documento(id_documento: int):
     finally:
         if conn:
             conn.close()
-# Test comment for GitHub Actions

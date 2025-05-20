@@ -1,9 +1,8 @@
 <script>
     import { onMount } from 'svelte';
-    import { initializeKeycloak } from '$lib/keycloak.js';
-
+    import { initKeycloak } from '$lib/keycloak.js';
     onMount(async () => {
-        await initializeKeycloak();
+        await initKeycloak();
     });
 </script>
 

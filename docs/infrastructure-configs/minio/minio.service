@@ -1,0 +1,29 @@
+[Unit]
+Description=MinIO Object Storage Server
+Documentation=https://docs.min.io
+Wants=network-online.target
+After=network-online.target
+AssertFileIsExecutable=/usr/local/bin/minio
+
+[Service]
+WorkingDirectory=/home/administrator 
+
+User=administrator
+Group=administrator 
+
+Environment="MINIO_ROOT_USER=openpadiadmin"
+Environment="MINIO_ROOT_PASSWORD=abc123.."
+Environment="MINIO_OPTS=--console-address :9001"
+
+ExecStart=/usr/local/bin/minio server $MINIO_OPTS /srv/minio/data
+
+Restart=always
+RestartSec=10
+LimitNOFILE=65536
+LimitNPROC=4096
+TimeoutStopSec=30
+KillSignal=SIGTERM
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
