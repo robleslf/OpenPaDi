@@ -1,13 +1,11 @@
 <#import "template.ftl" as layout>
-<#-- Sobrescribimos solo la macro del header para cambiar el logo -->
 <#macro kcLoginHeader>
     <div id="kc-logo-wrapper" style="text-align: center; padding-bottom: 20px;">
         <img src="${url.resourcesPath}/img/logo.png" alt="OpenPaDi Logo" width="150">
     </div>
 </#macro>
 
-<#-- Usamos el layout de registro del tema padre (keycloak o base) -->
-<#-- Pasamos las variables necesarias que espera la plantilla padre -->
+
 <#assign
     displayInfo = social.displayInfo!"false",
     displayWide = realm.password && realm.registrationAllowed && !registrationDisabled??
@@ -19,7 +17,6 @@
     showAnotherWayIfPresent=false
 >
 
-    <#-- Sección del Header (aquí se usa nuestra macro personalizada) -->
     <#if section = "header">
         <@kcLoginHeader />
         <#-- El siguiente código es del tema 'base' para mantener el título si existe -->
@@ -41,7 +38,6 @@
             </#if>
         </#if>
 
-    <#-- Sección del Formulario (usamos el contenido del formulario del tema padre) -->
     <#elseif section = "form">
         <#if realm.password>
             <div id="kc-form">
@@ -51,7 +47,6 @@
             </div>
         </#if>
 
-    <#-- Sección de Información (usamos la del tema padre) -->
     <#elseif section = "info" >
         <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
             <div id="kc-registration-container">
