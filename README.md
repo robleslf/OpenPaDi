@@ -16,6 +16,12 @@ Está dirigida a investigadores, estudiantes, paleógrafos, diplomáticos e hist
 
 ---
 
+*   **Manuales:**
+    *   [Manual de Configuración de red en Proxmox VE para OpenPaDi](./docs/Manual_de_Configuracion_de_red_en_Proxmox_VE_para_OpenPaDi.pdf)
+    *   [Manual de Instalación Servicios OpenPaDi](./docs/Manual_de_Instalacion_Servicios_OpenPaDi.pdf)
+      
+--- 
+
 ## Funcionalidades Implementadas (Versión Actual)
 
 - **Repositorio de Documentos:** Subida y almacenamiento de documentos digitalizados (imágenes, PDFs).
