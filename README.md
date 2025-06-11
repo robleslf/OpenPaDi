@@ -16,7 +16,7 @@ Está dirigida a investigadores, estudiantes, paleógrafos, diplomáticos e hist
 
 ---
 
-##   **Manuales:**
+*   **Manuales:**
     *   [Manual de Configuración de red en Proxmox VE para OpenPaDi](./docs/Manual_de_Configuracion_de_red_en_Proxmox_VE_para_OpenPaDi.pdf)
     *   [Manual de Instalación Servicios OpenPaDi](./docs/Manual_de_Instalacion_Servicios_OpenPaDi.pdf)
       
